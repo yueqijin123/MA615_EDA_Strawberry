@@ -397,20 +397,21 @@ write.csv(stb_survey, file = "stb_survey.csv", row.names = FALSE)
 top_chemicals_data <- stb_survey %>%
   count(Chemical) %>%
   arrange(-n) %>%
-  head(15)
+  head(10)
 
 # Extract data for these top 15 chemicals from the original dataset.
 subset_stb_survey <- stb_survey %>%
+  filter(!is.na(Chemical)) %>%
   filter(Chemical %in% top_chemicals_data$Chemical)
 
 p <- ggplot(subset_stb_survey, aes(x = Chemical, fill = State)) +
   geom_bar(position = "stack", stat = "count") +  
   scale_fill_brewer(palette = "Set1") +  
-  labs(title = "Use Frequency of Top 15 Chemicals in various State", 
+  labs(title = "Use Frequency of Top 10 Chemicals in various State", 
        x = NULL, y = "Use Frequency") +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),  
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 1),  
     axis.ticks = element_blank(),
     legend.title = element_blank(),
     legend.position = "right",
@@ -421,7 +422,7 @@ print(p)
 
 ```
 
-*The chart visualizes the use frequency of the top 15 chemicals across various states.California has the highest use frequency for many of the chemicals, with its usage often reaching the 500-mark.Florida and Michigan also show notable use frequencies, but they generally fall below the level of California. Some chemicals, such as those corresponding to the purple and orange segments (possibly Ohio and Oregon), have a more consistent usage frequency across the spectrum of chemicals.The chemicals listed on the left side of the chart (like abamectin, acetamiprid, azoxystrobin) have a more consistent usage frequency across different states.There is a chemical labeled as NA, suggesting that there might be some missing or unclassified data in this dataset.Several states like New York, North Carolina, and Wisconsin have relatively lower frequencies in the use of these top chemicals when compared to states like California.*
+*The chart visualizes the use frequency of the top 10 chemicals across various states.California seems to have the highest use frequency for most of the listed chemicals, particularly for malathion, flumioxazin, and fludioxonil.Florida demonstrates a moderate use frequency. It uses some chemicals, like fenhexamid and cyprodinil, more frequently than other states but uses others, like malathion, less often.Oregon's usage appears to be relatively lower than that of California and Florida for most chemicals. However, for some chemicals, like bifenthrin, its use frequency is comparable to Florida.Washington has the least use frequency for nearly all of the listed chemicals. The usage seems to be minimal and consistent across the chemicals. Malathion stands out as the chemical with the highest use frequency, especially in California.Abamectin appears to be the least frequently used chemical among the four states..*
 
 *Then Create two subsets, poisons_chem and safe_chem, by filtering based on the values in the 'Chemical' column from the stb_survey data table.Visualize all chemicals and differentiate them by color based on their safety.*
 
@@ -567,9 +568,11 @@ toxic_plot1 <- ggplot(data = poisons_chem_selected,
   scale_color_manual(values = c("darkmagenta", "darkblue", "darkgreen", "darkorange"))
 toxic_plot1
 ```
+
 *From the plot regarding toxic chemicals, we can find that insecticide and fungicide widely used in strawberry farming in California and Florida. Strawberry farming in Washington and Oregon only used insecticides, herbicides, and fungicides in 2016, but did not use them in subsequent years.*
 
 *Safe Chemical Frequency in Various States from 2016 to 2021*
+
 ```{r}
 # Filter the data to include only the specified domains
 selected_domains <- c("INSECTICIDE", "FUNGICIDE", "HERBICIDE", "OTHER")
@@ -587,9 +590,11 @@ toxic_plot1 <- ggplot(data = safe_chem_selected,
   scale_color_manual(values = c("darkmagenta", "darkblue", "darkgreen", "darkorange"))
 toxic_plot1
 ```
+
 *From the plot regarding safe chemicals, we can find that insecticide and fungicide widely used in strawberry farming in California and Florida in all years. In 2016, strawberry farming in Washington only used fungicides and strawberry farming in Oregon only used others, but did not use them in subsequent years.*
 
 *We observe the distribution of the average value of strawberries in each state when using toxic chemicals.*
+
 ```{r}
 poisons_chem$Value <- as.numeric(gsub("[^0-9.]", "", poisons_chem$Value))
 us_states <- map_data("state")
@@ -631,6 +636,7 @@ ggplot(data = map_data, aes(x = long, y = lat, fill = Avg_Value)) +
 ```
 
 *We observe the distribution of the average value of strawberries in each state when using safe chemicals.*
+
 ```{r}
 safe_chem$Value <- as.numeric(gsub("[^0-9.]", "", safe_chem$Value))
 us_states <- map_data("state")
@@ -672,6 +678,7 @@ ggplot(data = map_data, aes(x = long, y = lat, fill = Avg_Value)) +
   theme_void()
 
 ```
+
 *Based on the distribution from the two maps, we conclude that under both the use of toxic and non-toxic chemicals, the average value of strawberries in California is the highest. Furthermore, when using toxic chemicals, the average value of strawberries in Washington is the lowest.*
 
 <p style="page-break-before: always">
@@ -679,6 +686,7 @@ ggplot(data = map_data, aes(x = long, y = lat, fill = Avg_Value)) +
 </p>
 
 ## References
+
 *https://www.osha.gov/chemicaldata*
 
 *https://ordspub.epa.gov/ords/pesticides/f?p=113:17::::::*
