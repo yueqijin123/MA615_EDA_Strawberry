@@ -6,17 +6,17 @@ format: pdf
 engine: knitr
 ---
 
-*Data research final Goal:*
+*Final Objective of Data Research*
 
-*1.Use Frequency of Top 15 Chemicals in various State*
+*1. Use Frequency of Top 15 Chemicals in various State*
 
-*2.Visualize all chemicals and differentiate them by color based on their safety and toxicity*
+*2. Visualize all chemicals and differentiate them by color based on their safety and toxicity*
 
-*3.Toxic & Safe Chemical Frequency by State*
+*3. Toxic & Safe Chemical Frequency by State*
 
-*4.Toxic Chemical Use Frequency in Various States from 2016 to 2021*
+*4. Toxic Chemical Use Frequency in Various States from 2016 to 2021*
 
-*5.Safe Chemical Use Frequency in Various States from 2016 to 2021*
+*5. Safe Chemical Use Frequency in Various States from 2016 to 2021*
 
 *6. Average Value of Strawberries using toxic chemicals & safe chemicals*
 
@@ -679,6 +679,11 @@ ggplot(data = map_data, aes(x = long, y = lat, fill = Avg_Value)) +
 </p>
 
 ## References
+*https://www.osha.gov/chemicaldata*
+
+*https://ordspub.epa.gov/ords/pesticides/f?p=113:17::::::*
+
+*https://comptox.epa.gov/dashboard/*
 
 *https://quickstats.nass.usda.gov/src/glossary.pdf*
 
